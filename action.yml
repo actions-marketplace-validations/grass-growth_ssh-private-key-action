@@ -17,6 +17,7 @@ runs:
         echo "::error title=⛔ error hint::Support Linux and macOS Only"
         exit 1
     - name: Start SSH agent with a key
+      shell: bash
       env:
         SSH_AUTH_SOCK: /tmp/ssh_agent.sock
       run: |
