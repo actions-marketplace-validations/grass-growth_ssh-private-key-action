@@ -1,5 +1,4 @@
 name: ssh-private-key
-
 on:
   workflow_dispatch:
   push:
@@ -8,15 +7,15 @@ on:
   pull_request:
     branches:
       - '*'
-
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
       - name: Check out code
         uses: actions/checkout@v2
-
       - name: Add SSH Private key
         uses: grass-growth/ssh-private-key-action@v0.0.3
         with:
-          private_key: "hello"
+          private_key: ${{ secrets.SSH_PRIVATE_KEY }}
+      - name: Test connection
+        run: ssh -T git@github.com
