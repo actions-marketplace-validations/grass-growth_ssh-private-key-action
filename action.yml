@@ -16,6 +16,12 @@ runs:
       run: |
         echo "::error title=⛔ error hint::Support Linux and macOS Only"
         exit 1
+    - name: Check SSH key
+      if: ${{ inputs.private_key == '' }}
+      shell: bash
+      run: |
+        echo "::error title=⛔ error hint::Private key cannot be empty"
+        exit 1
     - name: Start SSH agent with a key
       shell: bash
       env:
