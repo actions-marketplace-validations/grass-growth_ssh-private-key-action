@@ -8,20 +8,20 @@ inputs:
     description: 'SSH Private key'
     required: true
 runs:
-    using: 'composite'
-    steps:
-      - name: Check Runner OS
-        if: ${{ runner.os != 'Linux' }}
-        shell: bash
-        run: |
-          echo "::error title=⛔ error hint::Support Linux Only"
-          exit 1
-      - name: Start SSH agent with a key
-        env:
-          SSH_AUTH_SOCK: /tmp/ssh_agent.sock
-        run: |
-            mkdir -p ~/.ssh
-            ssh-keyscan github.com >> ~/.ssh/known_hosts
-            ssh-agent -a $SSH_AUTH_SOCK > /dev/null	
-            ssh-add - <<< "${{ inputs.private_key }}"
-            echo "SSH_AUTH_SOCK=$SSH_AUTH_SOCK" >> $GITHUB_ENV  
+  using: 'composite'
+  steps:
+    - name: Check Runner OS
+      if: ${{ runner.os != 'Linux' && runner.os != 'macOS' }}
+      shell: bash
+      run: |
+        echo "::error title=⛔ error hint::Support Linux and macOS Only"
+        exit 1
+    - name: Start SSH agent with a key
+      env:
+        SSH_AUTH_SOCK: /tmp/ssh_agent.sock
+      run: |
+        mkdir -p ~/.ssh
+        ssh-keyscan github.com >> ~/.ssh/known_hosts
+        ssh-agent -a $SSH_AUTH_SOCK > /dev/null	
+        ssh-add - <<< "${{ inputs.private_key }}"
+        echo "SSH_AUTH_SOCK=$SSH_AUTH_SOCK" >> $GITHUB_ENV  
