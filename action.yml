@@ -23,6 +23,6 @@ runs:
       run: |
         mkdir -p ~/.ssh
         ssh-keyscan github.com >> ~/.ssh/known_hosts
-        ssh-agent -a $SSH_AUTH_SOCK > /dev/null	
-        ssh-add - <<< "${{ inputs.private_key }}"
-        echo "SSH_AUTH_SOCK=$SSH_AUTH_SOCK" >> $GITHUB_ENV  
+        ssh-agent -a $SSH_AUTH_SOCK > /dev/null
+        echo "${{ inputs.private_key }}" | ssh-add -
+        echo "SSH_AUTH_SOCK=$SSH_AUTH_SOCK" >> $GITHUB_ENV
