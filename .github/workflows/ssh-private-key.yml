@@ -14,7 +14,7 @@ jobs:
       - name: Check out code
         uses: actions/checkout@v2
       - name: Add SSH Private key
-        uses: grass-growth/ssh-private-key-action@v0.0.3
+        uses: grass-growth/ssh-private-key-action@v0.0.4
         with:
           private_key: ${{ secrets.SSH_PRIVATE_KEY }}
       - name: Test connection
